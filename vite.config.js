@@ -3,7 +3,14 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: [['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]],
+      },
+    }),
+  ],
   server: {
     port: 3000,
     open: true,
