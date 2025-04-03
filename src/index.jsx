@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { CookiesProvider } from 'react-cookie';
 
 // ファイルの先頭に追加
 console.log('React version:', React.version);
 console.log('Environment:', import.meta.env);
+
+// 環境変数のデバッグ
+console.log('環境変数:', import.meta.env);
 
 // エラーハンドリングを追加
 window.addEventListener('error', (event) => {
@@ -18,7 +22,9 @@ window.addEventListener('error', (event) => {
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <Provider store={store}>
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </Provider>
   // </React.StrictMode>
 );
