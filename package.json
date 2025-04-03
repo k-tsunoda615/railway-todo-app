@@ -36,7 +36,10 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint:check": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "validate": "yarn lint:check && yarn format:check"
   },
   "eslintConfig": {
     "extends": [
