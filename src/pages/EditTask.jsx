@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './editTask.scss';
 
 export const EditTask = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { listId, taskId } = useParams();
   const [cookies] = useCookies();
   const [title, setTitle] = useState('');
@@ -35,11 +35,13 @@ export const EditTask = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        setErrorMessage('');
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessage(`更新に失敗しました。${err}`);
+        if (!err.response) {
+          setErrorMessage(`更新に失敗しました。${err}`);
+        }
       });
   };
 
@@ -51,10 +53,13 @@ export const EditTask = () => {
         },
       })
       .then(() => {
+        setErrorMessage('');
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessage(`削除に失敗しました。${err}`);
+        if (!err.response) {
+          setErrorMessage(`削除に失敗しました。${err}`);
+        }
       });
   };
 
@@ -76,9 +81,13 @@ export const EditTask = () => {
           const formattedLimit = limitDate.toISOString().slice(0, 16);
           setLimit(formattedLimit);
         }
+
+        setErrorMessage('');
       })
       .catch((err) => {
-        setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
+        if (!err.response) {
+          setErrorMessage(`タスク情報の取得に失敗しました。${err}`);
+        }
       });
   }, []);
 

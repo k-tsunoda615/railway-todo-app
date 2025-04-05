@@ -14,7 +14,7 @@ export const NewTask = () => {
   const [limit, setLimit] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
   const handleLimitChange = (e) => setLimit(e.target.value);
@@ -36,10 +36,15 @@ export const NewTask = () => {
         },
       })
       .then(() => {
+        setErrorMessage('');
         navigate('/');
       })
       .catch((err) => {
-        setErrorMessage(`タスクの作成に失敗しました。${err}`);
+        if (!err.response) {
+          setErrorMessage(`タスクの作成に失敗しました。${err}`);
+        } else if (err.response.status >= 500) {
+          setErrorMessage(`サーバーエラーが発生しました。しばらく経ってからお試しください。`);
+        }
       });
   };
 
@@ -53,9 +58,12 @@ export const NewTask = () => {
       .then((res) => {
         setLists(res.data);
         setSelectListId(res.data[0]?.id);
+        setErrorMessage('');
       })
       .catch((err) => {
-        setErrorMessage(`リストの取得に失敗しました。${err}`);
+        if (!err.response) {
+          setErrorMessage(`リストの取得に失敗しました。${err}`);
+        }
       });
   }, []);
 

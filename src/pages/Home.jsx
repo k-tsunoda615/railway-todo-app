@@ -26,9 +26,13 @@ export const Home = () => {
       })
       .then((res) => {
         setLists(res.data);
+        setErrorMessage(''); // 成功時にエラーメッセージをクリア
       })
       .catch((err) => {
-        setErrorMessage(`リストの取得に失敗しました。${err}`);
+        // ネットワークエラーの場合のみエラーメッセージを表示
+        if (!err.response) {
+          setErrorMessage(`リストの取得に失敗しました。${err}`);
+        }
       });
   }, []);
 
@@ -49,9 +53,13 @@ export const Home = () => {
       })
       .then((res) => {
         setTasks(res.data.tasks);
+        setErrorMessage(''); // 成功時にエラーメッセージをクリア
       })
       .catch((err) => {
-        setErrorMessage(`タスクの取得に失敗しました。${err}`);
+        // ネットワークエラーの場合のみエラーメッセージを表示
+        if (!err.response) {
+          setErrorMessage(`タスクの取得に失敗しました。${err}`);
+        }
       });
   };
 
