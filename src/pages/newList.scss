@@ -1,8 +1,18 @@
+@import '../styles/variables.scss';
+
 @charset "utf-8";
 
 .new-list {
   width: 1000px;
   margin: 0 auto;
+
+  @include tablet {
+    width: 90%;
+  }
+
+  @include mobile {
+    width: 95%;
+  }
 
   &-form {
     color: #555555;
@@ -11,6 +21,15 @@
   &-title {
     width: 300px;
     margin-bottom: 25px;
+
+    @include tablet {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &-button {
@@ -19,5 +38,9 @@
     width: 80px;
     height: 40px;
     border-radius: 5px;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 }

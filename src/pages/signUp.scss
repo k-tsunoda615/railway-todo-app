@@ -1,8 +1,19 @@
+@import '../styles/variables.scss';
+
 @charset "utf-8";
 
 .signup {
   width: 500px;
   margin: 0 auto;
+
+  @include tablet {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  @include mobile {
+    width: 95%;
+  }
 
   &-form {
     margin: 25px 0;
@@ -15,6 +26,10 @@
     width: 100px;
     height: 40px;
     border-radius: 5px;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 

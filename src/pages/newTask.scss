@@ -1,8 +1,18 @@
+@import '../styles/variables.scss';
+
 @charset "utf-8";
 
 .new-task {
   width: 1000px;
   margin: 0 auto;
+
+  @include tablet {
+    width: 90%;
+  }
+
+  @include mobile {
+    width: 95%;
+  }
 
   &-form {
     color: #555555;
@@ -14,6 +24,15 @@
   &-limit {
     width: 300px;
     margin-bottom: 25px;
+
+    @include tablet {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &-detail {
@@ -26,6 +45,10 @@
     width: 80px;
     height: 40px;
     border-radius: 5px;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 

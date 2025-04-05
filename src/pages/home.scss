@@ -1,23 +1,63 @@
+@import '../styles/variables.scss';
+
 .taskList {
   margin: 50px auto;
   list-style: none;
   width: 1000px;
+
+  @include tablet {
+    width: 90%;
+    margin: 30px auto;
+  }
+
+  @include mobile {
+    width: 95%;
+    margin: 20px auto;
+  }
 }
 
 .list {
   &-header {
     display: flex;
     justify-content: space-between;
+
+    @include tablet {
+      flex-direction: column;
+    }
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   &-menu {
     text-align: right;
+
+    @include tablet {
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    @include mobile {
+      text-align: left;
+      margin-top: 10px;
+    }
   }
 
   &-tab {
     list-style: none;
     display: flex;
     overflow-x: auto;
+
+    @include tablet {
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @include mobile {
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
 
     &-item {
       flex-shrink: 0;
@@ -29,6 +69,19 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
+
+      @include tablet {
+        width: auto;
+        min-width: 80px;
+        padding: 0 15px;
+      }
+
+      @include mobile {
+        width: auto;
+        min-width: 60px;
+        padding: 0 10px;
+        font-size: 0.9rem;
+      }
 
       &:focus {
         outline: 2px solid #242f9b;
@@ -54,6 +107,14 @@
   &-header {
     display: flex;
     justify-content: space-between;
+
+    @include tablet {
+      flex-direction: column;
+    }
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
 }
 
@@ -67,6 +128,18 @@
     font-size: large;
     border: solid 1px #ffffff;
 
+    @include tablet {
+      height: auto;
+      min-height: 100px;
+    }
+
+    @include mobile {
+      height: auto;
+      min-height: 120px;
+      padding-left: 15px;
+      font-size: medium;
+    }
+
     &-link {
       display: block;
       width: 100%;
@@ -74,6 +147,10 @@
       text-decoration: none;
       color: #000000;
       padding: 10px 0;
+
+      @include mobile {
+        padding: 8px 0;
+      }
     }
   }
 }
@@ -86,6 +163,15 @@
   &-wrapper {
     width: 100px;
     margin: 0 0 25px auto;
+
+    @include tablet {
+      margin: 15px 0;
+    }
+
+    @include mobile {
+      width: 100%;
+      margin: 15px 0;
+    }
   }
 
   width: 100%;
