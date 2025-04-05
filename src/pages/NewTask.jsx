@@ -11,17 +11,22 @@ export const NewTask = () => {
   const [lists, setLists] = useState([]);
   const [title, setTitle] = useState('');
   const [detail, setDetail] = useState('');
+  const [limit, setLimit] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
   const history = useNavigate();
   const handleTitleChange = (e) => setTitle(e.target.value);
   const handleDetailChange = (e) => setDetail(e.target.value);
+  const handleLimitChange = (e) => setLimit(e.target.value);
   const handleSelectList = (id) => setSelectListId(id);
   const onCreateTask = () => {
+    const limitISO = limit ? new Date(limit).toISOString() : null;
+
     const data = {
       title: title,
       detail: detail,
       done: false,
+      limit: limitISO,
     };
 
     axios
@@ -81,6 +86,10 @@ export const NewTask = () => {
           <label>詳細</label>
           <br />
           <textarea type="text" onChange={handleDetailChange} className="new-task-detail" />
+          <br />
+          <label>期限</label>
+          <br />
+          <input type="datetime-local" onChange={handleLimitChange} className="new-task-limit" />
           <br />
           <button type="button" className="new-task-button" onClick={onCreateTask}>
             作成
