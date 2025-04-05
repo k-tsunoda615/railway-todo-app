@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -13,7 +13,10 @@ export const Home = () => {
   const [tasks, setTasks] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [cookies] = useCookies();
+  const listTabRef = useRef(null);
+
   const handleIsDoneDisplayChange = (e) => setIsDoneDisplay(e.target.value);
+
   useEffect(() => {
     axios
       .get(`${url}/lists`, {
@@ -33,25 +36,13 @@ export const Home = () => {
     const listId = lists[0]?.id;
     if (typeof listId !== 'undefined') {
       setSelectListId(listId);
-      axios
-        .get(`${url}/lists/${listId}/tasks`, {
-          headers: {
-            authorization: `Bearer ${cookies.token}`,
-          },
-        })
-        .then((res) => {
-          setTasks(res.data.tasks);
-        })
-        .catch((err) => {
-          setErrorMessage(`タスクの取得に失敗しました。${err}`);
-        });
+      fetchTasks(listId);
     }
   }, [lists]);
 
-  const handleSelectList = (id) => {
-    setSelectListId(id);
+  const fetchTasks = (listId) => {
     axios
-      .get(`${url}/lists/${id}/tasks`, {
+      .get(`${url}/lists/${listId}/tasks`, {
         headers: {
           authorization: `Bearer ${cookies.token}`,
         },
@@ -63,6 +54,46 @@ export const Home = () => {
         setErrorMessage(`タスクの取得に失敗しました。${err}`);
       });
   };
+
+  const handleSelectList = (id) => {
+    setSelectListId(id);
+    fetchTasks(id);
+  };
+
+  const handleKeyDown = (e, index) => {
+    const listItems = listTabRef.current.querySelectorAll('[role="tab"]');
+    const lastIndex = listItems.length - 1;
+    let newIndex;
+
+    switch (e.key) {
+      case 'ArrowRight':
+        newIndex = index === lastIndex ? 0 : index + 1;
+        listItems[newIndex].focus();
+        handleSelectList(lists[newIndex].id);
+        break;
+      case 'ArrowLeft':
+        newIndex = index === 0 ? lastIndex : index - 1;
+        listItems[newIndex].focus();
+        handleSelectList(lists[newIndex].id);
+        break;
+      case 'Home':
+        listItems[0].focus();
+        handleSelectList(lists[0].id);
+        break;
+      case 'End':
+        listItems[lastIndex].focus();
+        handleSelectList(lists[lastIndex].id);
+        break;
+      case 'Enter':
+      case ' ':
+        handleSelectList(lists[index].id);
+        e.preventDefault();
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -80,21 +111,32 @@ export const Home = () => {
               </p>
             </div>
           </div>
-          <ul className="list-tab">
+          <ul className="list-tab" role="tablist" aria-label="タスクリスト" ref={listTabRef}>
             {lists.map((list, key) => {
               const isActive = list.id === selectListId;
               return (
                 <li
                   key={key}
                   className={`list-tab-item ${isActive ? 'active' : ''}`}
+                  role="tab"
+                  tabIndex={isActive ? 0 : -1}
+                  aria-selected={isActive}
+                  aria-controls={`tasks-panel-${list.id}`}
+                  id={`list-tab-${list.id}`}
                   onClick={() => handleSelectList(list.id)}
+                  onKeyDown={(e) => handleKeyDown(e, key)}
                 >
                   {list.title}
                 </li>
               );
             })}
           </ul>
-          <div className="tasks">
+          <div
+            className="tasks"
+            role="tabpanel"
+            id={`tasks-panel-${selectListId}`}
+            aria-labelledby={`list-tab-${selectListId}`}
+          >
             <div className="tasks-header">
               <h2>タスク一覧</h2>
               <Link to="/task/new">タスク新規作成</Link>
