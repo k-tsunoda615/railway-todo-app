@@ -12,25 +12,27 @@ import { EditList } from '../pages/EditList';
 
 export const Router = () => {
   console.log('Router component rendering'); // デバッグ用
-  const auth = useSelector((state) => state.auth.isSignIn);
-  console.log('Auth state:', auth); // 認証状態をデバッグ
+  // 認証状態を使用しないように変更
+  // const auth = useSelector((state) => state.auth.isSignIn);
+  // console.log('Auth state:', auth); // 認証状態をデバッグ
 
   return (
     <BrowserRouter basename="/">
       <Routes>
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        {auth ? (
-          <>
-            <Route path="/" element={<Home />} />
-            <Route path="/task/new" element={<NewTask />} />
-            <Route path="/list/new" element={<NewList />} />
-            <Route path="/lists/:listId/tasks/:taskId" element={<EditTask />} />
-            <Route path="/lists/:listId/edit" element={<EditList />} />
-          </>
+        {/* {auth ? (
+          <> */}
+        {/* 認証チェックを削除し、すべてのルートを直接定義 */}
+        <Route path="/" element={<Home />} />
+        <Route path="/task/new" element={<NewTask />} />
+        <Route path="/list/new" element={<NewList />} />
+        <Route path="/lists/:listId/tasks/:taskId" element={<EditTask />} />
+        <Route path="/lists/:listId/edit" element={<EditList />} />
+        {/* </>
         ) : (
           <Route path="*" element={<Navigate to="/signin" replace />} />
-        )}
+        )} */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
